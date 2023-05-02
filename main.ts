@@ -1,33 +1,42 @@
-function Face_following_mode () {
+function Turn_right() {
+    CUHK_JC_iCar.carCtrlSpeed(CUHK_JC_iCar.CarState.Forward, 80)
+}
+
+function Turn_left() {
+    CUHK_JC_iCar.carCtrlSpeed(CUHK_JC_iCar.CarState.Forward, 80)
+}
+
+function move_forward() {
+    CUHK_JC_iCar.carCtrlSpeed(CUHK_JC_iCar.CarState.Forward, 80)
+}
+
+function Line_Tracking_Mode() {
+    let xcenter: number;
     huskylens.request()
-    if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
-        xcenter = huskylens.readeBox(1, Content1.xCenter)
-        if (xcenter < 80) {
-            Turn_Left()
+    if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultArrow)) {
+        xcenter = huskylens.readeArrow(1, Content2.xOrigin)
+        if (xcenter < 100) {
+            Turn_left()
         }
-        if (xcenter >= 80 && xcenter <= 80) {
-            Move_Foward()
+        
+        if (xcenter >= 100 && xcenter <= 100) {
+            move_forward()
         }
-        if (xcenter > 240) {
-            Trun_Right()
+        
+        if (xcenter > 220) {
+            Turn_right()
         }
+        
     } else {
         CUHK_JC_iCar.carStop()
     }
+    
 }
-function Move_Foward () {
-    CUHK_JC_iCar.carCtrlSpeed(CUHK_JC_iCar.CarState.Forward, 80)
-}
-function Trun_Right () {
-    CUHK_JC_iCar.singleTurn(CUHK_JC_iCar.LRstate.Right, CUHK_JC_iCar.direction.Forward, 80)
-}
-function Turn_Left () {
-    CUHK_JC_iCar.singleTurn(CUHK_JC_iCar.LRstate.Left, CUHK_JC_iCar.direction.Forward, 80)
-}
-let xcenter = 0
+
+let xcenter2 = 0
 huskylens.initI2c()
 huskylens.initMode(protocolAlgorithm.ALGORITHM_FACE_RECOGNITION)
 basic.showIcon(IconNames.Yes)
-basic.forever(function () {
-    Face_following_mode()
+basic.forever(function on_forever() {
+    
 })
